@@ -1,0 +1,3 @@
+CREATE_USER_URL = 'https://qa-stellarburgers.education-services.ru/api/auth/register'
+USER_URL = 'https://qa-stellarburgers.education-services.ru/api/auth/user'
+LOGIN_USER_URL = 'https://qa-stellarburgers.education-services.ru/api/auth/login'
