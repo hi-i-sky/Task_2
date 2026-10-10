@@ -1,7 +1,8 @@
 import pytest
 from faker import Faker
 import requests
-from constants.urls import CREATE_USER_URL, USER_URL
+import random
+from constants.urls import CREATE_USER_URL, USER_URL, INGREDIENTS_URL
 from helpers import delete_user_by_token, get_user_access_token
 
 
@@ -38,3 +39,15 @@ def cleanup_user(random_user_payload):
     password = random_user_payload["password"]
     user_access_token = get_user_access_token(email, password)
     delete_user_by_token(user_access_token)
+
+
+@pytest.fixture
+def ingredients_ids():
+
+    r = requests.get(INGREDIENTS_URL)
+    r.raise_for_status()
+    data = r.json()
+
+    ingredients_ids = [item["_id"] for item in data["data"]]
+
+    yield random.sample(ingredients_ids, 3)

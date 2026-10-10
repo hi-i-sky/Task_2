@@ -1,3 +1,5 @@
 CHANGED_NAME = 'Эдельфина'
 CHANGED_EMAIL = 'edelfina_36@yandex.ru'
 CHANGED_PASSWORD = 'sh&62-!jf-nHbdgYW'
+
+INVALID_INGREDIENT_HASH = '691577430cc94f01a65b859'
