@@ -23,9 +23,17 @@ def created_user(random_user_payload):
     r = requests.post(CREATE_USER_URL, json=random_user_payload)
     r.raise_for_status()
 
-    user_access_token = r.json()['accessToken']
+    data = r.json()
 
-    yield user_access_token
+    user_access_token = data['accessToken']
+    user_email = data['user']['email']
+    user_name = data['user']['name']
+
+    yield {
+        'token': user_access_token, 
+        'email': user_email, 
+        'name': user_name
+    }
 
     delete_user_by_token(user_access_token)
 

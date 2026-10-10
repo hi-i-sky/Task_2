@@ -18,7 +18,7 @@ class TestChangeUserData:
     def test_change_user_name_or_email_with_authorization_success(self, created_user, field, field_value):
 
         payload = {field: field_value}
-        r = requests.patch(USER_URL, json=payload, headers={'Authorization': created_user})
+        r = requests.patch(USER_URL, json=payload, headers={'Authorization': created_user['token']})
 
         assert r.status_code == 200
         assert r.json()['user'][field] == field_value
@@ -43,7 +43,7 @@ class TestChangeUserData:
     def test_change_user_password_with_authorization_success(self, created_user):
 
         payload = {'password': CHANGED_PASSWORD}
-        r = requests.patch(USER_URL, json=payload, headers={'Authorization': created_user})
+        r = requests.patch(USER_URL, json=payload, headers={'Authorization': created_user['token']})
 
         assert r.status_code == 200
         assert 'user' in r.json()
