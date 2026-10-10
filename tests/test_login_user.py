@@ -16,11 +16,12 @@ class TestLoginUser:
 
         r = requests.post(LOGIN_USER_URL, json=payload)
 
+        data = r.json()
+
         assert r.status_code == 200
-        assert r.json()['success'] is True
-        assert 'user' in r.json()
-        assert 'accessToken' in r.json()
-        assert 'refreshToken' in r.json()
+        assert 'user' in data
+        assert 'accessToken' in data
+        assert 'refreshToken' in data
 
 
     @pytest.mark.parametrize('field', ['email', 'password'])

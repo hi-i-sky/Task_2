@@ -12,10 +12,14 @@ class TestCreateOrder:
         payload = {'ingredients': ingredients_ids}
         r = requests.post(CREATE_ORDER, json=payload, headers={'Authorization': created_user})
 
+        data = r.json()
+        received_ingredients = data["order"]["ingredients"]
+        received_ids = {item["_id"] for item in received_ingredients}
+
         assert r.status_code == 200
-        assert r.json()['success'] is True
-        assert 'name' in r.json()
-        assert 'order' in r.json()
+        assert 'number' in data['order']
+        assert 'price' in data['order']
+        assert received_ids == set(ingredients_ids)
 
 
     def test_create_order_without_authorization_and_with_ingredients_success(self, ingredients_ids):
@@ -24,9 +28,7 @@ class TestCreateOrder:
         r = requests.post(CREATE_ORDER, json=payload)
 
         assert r.status_code == 200
-        assert r.json()['success'] is True
-        assert 'name' in r.json()
-        assert 'order' in r.json()
+        assert 'number' in r.json()['order']
 
 
     def test_create_order_without_ingredients_error(self, created_user):

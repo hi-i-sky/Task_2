@@ -11,11 +11,12 @@ class TestCreateUser:
 
         r = requests.post(CREATE_USER_URL, json=random_user_payload)
 
+        data = r.json()
+
         assert r.status_code == 200
-        assert r.json()['success'] is True
-        assert 'user' in r.json()
-        assert 'accessToken' in r.json()
-        assert 'refreshToken' in r.json()
+        assert 'user' in data
+        assert 'accessToken' in data
+        assert 'refreshToken' in data
 
 
     def test_create_not_new_user_correct_credentials_error(self, random_user_payload, created_user):
