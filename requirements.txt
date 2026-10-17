@@ -1,0 +1,4 @@
+allure-pytest==2.16.2
+Faker==40.42.0
+pytest==9.1.1
+requests==2.34.2
