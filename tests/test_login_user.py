@@ -1,17 +1,17 @@
 import pytest
 import allure
 from constants.errors_texts import ERROR_401_WHEN_LOGIN_USER_WITHOUT_REQUIRED_FIELD
-from helpers import login_user
+from helpers import login_user, generate_user_payload
 
 
 class TestLoginUser:
 
     @allure.title('Проверка ручки /api/auth/login: успешный логин пользователя')
-    def test_login_correct_credentials_success(self, created_user, random_user_payload):
+    def test_login_correct_credentials_success(self, created_user):
 
         payload = {
-            "email": random_user_payload["email"],
-            "password": random_user_payload["password"],
+            "email": created_user["email"],
+            "password": created_user["password"],
         }
 
         r = login_user(payload)
@@ -26,9 +26,9 @@ class TestLoginUser:
 
     @allure.title('Проверка ручки /api/auth/login: ошибка 401 при попытке логина пользователя без одного из двух обязательных полей')
     @pytest.mark.parametrize('field', ['email', 'password'])
-    def test_login_without_required_field_error(self, random_user_payload, field):
+    def test_login_without_required_field_error(self, field):
 
-        payload = {k: v for k, v in random_user_payload.items() if k == field}
+        payload = {k: v for k, v in generate_user_payload().items() if k == field}
 
         r = login_user(payload)
 

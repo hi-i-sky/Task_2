@@ -1,5 +1,6 @@
 import requests
 import allure
+from faker import Faker
 from constants.urls import USER_URL, LOGIN_USER_URL, ORDER_URL, CREATE_USER_URL, INGREDIENTS_URL
 
 
@@ -65,3 +66,13 @@ def login_user(payload):
 @allure.step('Отправить GET-запрос на получение списка ингредиентов')
 def get_ingredients():
     return requests.get(INGREDIENTS_URL)
+
+
+@allure.step('Сгенерировать данные нового пользователя')
+def generate_user_payload():
+    fake = Faker()
+    return {
+        'email': fake.email(),
+        'password': fake.password(),
+        'name': fake.first_name()
+    }
