@@ -1,8 +1,7 @@
-import requests
 import pytest
 import allure
-from constants.urls import LOGIN_USER_URL
 from constants.errors_texts import ERROR_401_WHEN_LOGIN_USER_WITHOUT_REQUIRED_FIELD
+from helpers import login_user
 
 
 class TestLoginUser:
@@ -15,7 +14,7 @@ class TestLoginUser:
             "password": random_user_payload["password"],
         }
 
-        r = requests.post(LOGIN_USER_URL, json=payload)
+        r = login_user(payload)
 
         data = r.json()
 
@@ -31,7 +30,7 @@ class TestLoginUser:
 
         payload = {k: v for k, v in random_user_payload.items() if k == field}
 
-        r = requests.post(LOGIN_USER_URL, json=payload)
+        r = login_user(payload)
 
         assert r.status_code == 401
         assert r.json()['message'] == ERROR_401_WHEN_LOGIN_USER_WITHOUT_REQUIRED_FIELD

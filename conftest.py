@@ -1,9 +1,7 @@
 import pytest
 from faker import Faker
-import requests
 import random
-from constants.urls import CREATE_USER_URL, INGREDIENTS_URL, ORDER_URL
-from helpers import delete_user_by_token, get_user_access_token
+from helpers import delete_user_by_token, get_user_access_token, create_user, get_ingredients, create_order_with_authorization
 
 
 
@@ -21,7 +19,7 @@ def random_user_payload():
 @pytest.fixture
 def created_user(random_user_payload):
 
-    r = requests.post(CREATE_USER_URL, json=random_user_payload)
+    r = create_user(random_user_payload)
     r.raise_for_status()
 
     data = r.json()
@@ -53,7 +51,7 @@ def cleanup_user(random_user_payload):
 @pytest.fixture
 def ingredients_ids():
 
-    r = requests.get(INGREDIENTS_URL)
+    r = get_ingredients()
     r.raise_for_status()
     data = r.json()
 
@@ -68,7 +66,7 @@ def created_order(created_user, ingredients_ids):
     payload = {'ingredients': ingredients_ids}
     headers = {'Authorization': created_user['token']}
 
-    r = requests.post(ORDER_URL, json=payload, headers=headers)
+    r = create_order_with_authorization(payload, created_user['token'])
     r.raise_for_status()
     response_data = r.json()
 
